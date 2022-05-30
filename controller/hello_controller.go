@@ -7,7 +7,7 @@ import (
 	"strconv"
 )
 
-*
+/*
 Memanggil controller
 */
 func HelloController(context echo.Context) error {

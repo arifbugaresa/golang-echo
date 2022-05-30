@@ -3,11 +3,13 @@ package route
 import (
 	"github.com/labstack/echo/v4"
 	"golang-echo/controller"
+	"golang-echo/middleware"
 )
 
 func New() *echo.Echo {
 
 	e := echo.New()
+	middleware.LogMiddleware(e)
 
 	e.GET("/hello", controller.HelloController)
 	e.GET("/hello/query-param", controller.HelloControllerWithQueryParam)
