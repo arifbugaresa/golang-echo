@@ -2,14 +2,15 @@ package route
 
 import (
 	"github.com/labstack/echo/v4"
+	midEcho "github.com/labstack/echo/v4/middleware"
 	"golang-echo/controller"
-	"golang-echo/middleware"
+	midCustom "golang-echo/middleware"
 )
 
 func New() *echo.Echo {
 
 	e := echo.New()
-	middleware.LogMiddleware(e)
+	midCustom.LogMiddleware(e)
 
 	e.GET("/hello", controller.HelloController)
 	e.GET("/hello/query-param", controller.HelloControllerWithQueryParam)
@@ -20,6 +21,11 @@ func New() *echo.Echo {
 
 	e.GET("/users", controller.GetUserController)
 	e.POST("/users", controller.PostUserController)
+
+	// With Basic Auth
+	eAuthBasic := e.Group("/auth")
+	eAuthBasic.Use(midEcho.BasicAuth(midCustom.BasicAuthDB))
+	eAuthBasic.GET("/users", controller.GetUserController)
 
 	return e
 }
